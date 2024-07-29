@@ -80,9 +80,6 @@ class BreadcrumbListener
             if ($this->supportsLoadingAttributes()) {
                 $methodAttributeBreadcrumbs = $this->getAttributes($method);
                 if (\count($methodAttributeBreadcrumbs) > 0) {
-                    if (\count($methodBreadcrumbs) > 0) {
-                        throw MixedAnnotationWithAttributeBreadcrumbsException::forClassMethod($class->name, $method->name);
-                    }
                     $methodBreadcrumbs = $methodAttributeBreadcrumbs;
                 }
                 $this->addBreadcrumbsToTrail($methodBreadcrumbs);
