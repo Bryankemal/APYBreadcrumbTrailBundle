@@ -15,17 +15,11 @@ use APY\BreadcrumbTrailBundle\Annotation\Breadcrumb;
 use APY\BreadcrumbTrailBundle\Annotation\ResetBreadcrumbTrail;
 use APY\BreadcrumbTrailBundle\BreadcrumbTrail\Trail;
 use APY\BreadcrumbTrailBundle\MixedAnnotationWithAttributeBreadcrumbsException;
-use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class BreadcrumbListener
 {
-    /**
-     * @var Reader An Reader instance
-     */
-    protected $reader;
-
     /**
      * @var Trail An Trail instance
      */
@@ -39,12 +33,10 @@ class BreadcrumbListener
     /**
      * Constructor.
      *
-     * @param Reader $reader          An Reader instance
      * @param Trail  $breadcrumbTrail An Trail instance
      */
-    public function __construct(Reader $reader, Trail $breadcrumbTrail)
+    public function __construct(Trail $breadcrumbTrail)
     {
-        $this->reader = $reader;
         $this->breadcrumbTrail = $breadcrumbTrail;
     }
 
@@ -74,7 +66,6 @@ class BreadcrumbListener
             $this->breadcrumbTrail->reset();
 
             // Annotations from class
-            $classBreadcrumbs = $this->reader->getClassAnnotations($class);
             if ($this->supportsLoadingAttributes()) {
                 $classAttributeBreadcrumbs = $this->getAttributes($class);
                 if (\count($classBreadcrumbs) > 0) {
@@ -91,7 +82,6 @@ class BreadcrumbListener
 
             // Annotations from method
             $method = $class->getMethod($reflectableMethod);
-            $methodBreadcrumbs = $this->reader->getMethodAnnotations($method);
             if ($this->supportsLoadingAttributes()) {
                 $methodAttributeBreadcrumbs = $this->getAttributes($method);
                 if (\count($methodBreadcrumbs) > 0) {
