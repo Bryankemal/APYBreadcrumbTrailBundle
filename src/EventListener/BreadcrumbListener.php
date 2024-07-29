@@ -70,8 +70,8 @@ class BreadcrumbListener
                 $classAttributeBreadcrumbs = $this->getAttributes($class);
                 if (\count($classAttributeBreadcrumbs) > 0) {
                     $classBreadcrumbs = $classAttributeBreadcrumbs;
+                    $this->addBreadcrumbsToTrail($classBreadcrumbs);
                 }
-                $this->addBreadcrumbsToTrail($classBreadcrumbs);
             }
             
 
@@ -81,8 +81,9 @@ class BreadcrumbListener
                 $methodAttributeBreadcrumbs = $this->getAttributes($method);
                 if (\count($methodAttributeBreadcrumbs) > 0) {
                     $methodBreadcrumbs = $methodAttributeBreadcrumbs;
+                    $this->addBreadcrumbsToTrail($methodBreadcrumbs);
                 }
-                $this->addBreadcrumbsToTrail($methodBreadcrumbs);
+                
             }
             
         }
