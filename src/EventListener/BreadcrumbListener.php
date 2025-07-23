@@ -73,13 +73,33 @@ class BreadcrumbListener
         if ($kernelRequest == $event->getRequestType()) {
             $this->breadcrumbTrail->reset();
 
-            if ($this->supportsLoadingAttributes()) {
-                $classAttributeBreadcrumbs = $this->getAttributes($class);
-                if (\count($classAttributeBreadcrumbs) > 0) {
-                    $classBreadcrumbs = $classAttributeBreadcrumbs;
+            // Annotations from class
+            $classAttributeBreadcrumbs = $this->getAttributes($class);
+            if (\count($classBreadcrumbs) > 0) {
+                trigger_deprecation('apy/breadcrumb-bundle', '1.7', 'Please replace the annotations in "%s" with attributes. Adding Breadcrumbs via annotations is deprecated and will be removed in v2.0, but luckily your platform supports using Attributes.', $class->name);
+            }
+            if (\count($classAttributeBreadcrumbs) > 0) {
+                if (\count($classBreadcrumbs) > 0) {
+                    throw MixedAnnotationWithAttributeBreadcrumbsException::forClass($class->name);
                 }
+                $classBreadcrumbs = $classAttributeBreadcrumbs;
             }
             $this->addBreadcrumbsToTrail($classBreadcrumbs);
+
+            // Annotations from method
+            $method = $class->getMethod($reflectableMethod);
+            $methodBreadcrumbs = $this->reader->getMethodAnnotations($method);
+            $methodAttributeBreadcrumbs = $this->getAttributes($method);
+                if (\count($methodBreadcrumbs) > 0) {
+                    trigger_deprecation('apy/breadcrumb-bundle', '1.7', 'Please replace the annotations in "%s" with attributes. Adding Breadcrumbs via annotations is deprecated and will be removed in v2.0, but luckily your platform supports using Attributes.', $class->name.'::'.$method->name);
+                }
+                if (\count($methodAttributeBreadcrumbs) > 0) {
+                    if (\count($methodBreadcrumbs) > 0) {
+                        throw MixedAnnotationWithAttributeBreadcrumbsException::forClassMethod($class->name, $method->name);
+                    }
+                    $methodBreadcrumbs = $methodAttributeBreadcrumbs;
+                }
+            $this->addBreadcrumbsToTrail($methodBreadcrumbs);
         }
     }
 
