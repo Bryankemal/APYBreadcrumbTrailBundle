@@ -15,7 +15,6 @@ use APY\BreadcrumbTrailBundle\Annotation\Breadcrumb;
 use APY\BreadcrumbTrailBundle\Annotation\ResetBreadcrumbTrail;
 use APY\BreadcrumbTrailBundle\BreadcrumbTrail\Trail;
 use APY\BreadcrumbTrailBundle\MixedAnnotationWithAttributeBreadcrumbsException;
-use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
