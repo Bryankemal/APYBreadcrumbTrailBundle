@@ -41,9 +41,8 @@ class BreadcrumbListener
      * @param Reader $reader          An Reader instance
      * @param Trail  $breadcrumbTrail An Trail instance
      */
-    public function __construct(Reader $reader, Trail $breadcrumbTrail)
+    public function __construct(Trail $breadcrumbTrail)
     {
-        $this->reader = $reader;
         $this->breadcrumbTrail = $breadcrumbTrail;
     }
 
