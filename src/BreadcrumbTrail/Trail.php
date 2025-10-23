@@ -240,6 +240,10 @@ class Trail implements \IteratorAggregate, \Countable
             return \call_user_func([$object, $fullFunctionName]);
         }
 
+        if(property_exists($object, $function)){
+            return $object->$function;
+        }
+
         throw new \RuntimeException(\sprintf('"%s" is not callable.', implode('.', array_merge([$varName], $functions))));
     }
 
@@ -255,6 +259,10 @@ class Trail implements \IteratorAggregate, \Countable
             || \is_callable([$object, $fullFunctionName = 'has'.$function])
             || \is_callable([$object, $fullFunctionName = 'is'.$function])) {
             return \call_user_func_array([$object, $fullFunctionName], $parameters);
+        }
+
+        if(property_exists($object, $function)){
+            return $object->$function;
         }
 
         throw new \RuntimeException(\sprintf('"%s" is not callable.', implode('.', array_merge([$varName], $functions))));
