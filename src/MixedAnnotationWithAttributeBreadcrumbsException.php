@@ -4,7 +4,7 @@ namespace APY\BreadcrumbTrailBundle;
 
 class MixedAnnotationWithAttributeBreadcrumbsException extends \LogicException
 {
-    private function __construct(string $class, string $method = null)
+    private function __construct(string $class, ?string $method = null)
     {
         $target = $class;
         if ($method) {
